@@ -31,11 +31,11 @@ func DagToGraphEasyFormat(dag interface{}) (*string, error) {
 		depends, err := d.M(name).M("depends_on").Array()
 
 		if err != nil {
+			fmt.Fprintf(&b, "[%v]", name)
 			continue // task do not have `depends_on`
 		}
 
 		for _, depend := range depends {
-
 			fmt.Fprintf(&b, "[%v]->[%v]", depend, name)
 		}
 	}
@@ -63,7 +63,7 @@ func ExecGraphEasy(input string) error {
 
 	// draw graph flows right as long as possible
 	// http://bloodgate.com/perl/graph/manual/hinting.html#flow
-	io.WriteString(stdin, "graph { flow: left; }\n")
+	// io.WriteString(stdin, "graph { flow: left; }\n")
 
 	io.WriteString(stdin, input)
 	stdin.Close()
